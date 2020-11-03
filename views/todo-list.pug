@@ -4,13 +4,9 @@ block content
   main.container
     h1= title
     form(method="post")
-      h2 Add a todo
-      .mb-3
-        input#textInput.form-control(name="text", type="text")
-      .mb-3
-        input.btn.btn-primary(type="submit", value="Add")
-    hr
-    h2 Todo list
+      .input-group.mb-3
+        input#textInput.form-control.shadow-none(name="text", type="text", autofocus)
+        button.btn.btn-primary(type="submit") Add
     if todos && todos.length > 0
       ul.list-group
         each todo in todos

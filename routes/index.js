@@ -22,9 +22,10 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:id/delete", (req, res, next) => {
-  req.session.todos = req.session.todos.filter((todo) => {
-    return todo.id !== Number.parseInt(req.params.id);
-  });
+  const todos = req.session.todos;
+  const todoId = Number.parseInt(req.params.id);
+  const todoIndex = todos.findIndex(todo => todo.id === todoId);
+  todos.splice(todoIndex, 1);
   res.redirect("/");
 });
 

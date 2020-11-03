@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
+const { v4: uuidv4 } = require("uuid");
 
 /* GET home page. */
 router.get("/", (req, res) => {
@@ -11,7 +12,7 @@ router.post("/", (req, res) => {
   if (!req.session.todos) {
     req.session.todos = [];
   }
-  const newTodoId = req.app.locals.counter++;
+  const newTodoId = uuidv4();
   const newTodo = {
     id: newTodoId,
     text: req.body.text,
@@ -23,10 +24,14 @@ router.post("/", (req, res) => {
 
 router.get("/:id/delete", (req, res, next) => {
   const todos = req.session.todos;
-  const todoId = Number.parseInt(req.params.id);
-  const todoIndex = todos.findIndex(todo => todo.id === todoId);
-  todos.splice(todoIndex, 1);
-  res.redirect("/");
+  const todoId = req.params.id;
+  const todoIndex = todos.findIndex((todo) => todo.id === todoId);
+  if (todoIndex > -1) {
+    todos.splice(todoIndex, 1);
+    res.redirect("/");
+  } else {
+    next(createError(404, "ID not found"));
+  }
 });
 
 module.exports = router;

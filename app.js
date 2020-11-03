@@ -20,7 +20,6 @@ app.use(cookieParser());
 app.use(cookieSession({ signed: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.locals.counter = 0;
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
